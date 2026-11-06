@@ -1,0 +1,6 @@
+{
+  "name": "Talabeyah POS - طلبية",
+  "description": "Complete retail POS, inventory, delivery management, driver custody, and multi-tenant SaaS platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

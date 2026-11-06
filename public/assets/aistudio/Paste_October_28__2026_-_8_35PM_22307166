@@ -1,0 +1,1668 @@
+TALABEYAH POS — COMPLETE PRODUCTION-READY RETAIL, INVENTORY, DELIVERY & SAAS PLATFORM
+
+1. YOUR MISSION
+
+Act as a senior software architect, full-stack developer, database engineer, QA engineer, security engineer, and retail operations specialist.
+
+Build Talabeyah POS (طلبية) as a complete, functional, extensible point-of-sale and retail management platform.
+
+This is a real software application, NOT a static mockup, design preview, landing page, or collection of disconnected screens.
+
+The first real deployment will be for a fruit and vegetable shop. However, the platform must be designed to support other retail businesses, including grocery stores, computer shops, accessories stores, electronics stores, restaurants, and other configurable retail activities.
+
+The system must support:
+
+- Arabic and English interfaces.
+- Right-to-left Arabic and left-to-right English layouts.
+- Egyptian Pound (EGP / ج.م) as the default currency.
+- Weight-based products, units, pieces, cartons, and decimal quantities.
+- Cashier operations and receipt printing.
+- Purchasing, stock receiving, inventory, and stock adjustments.
+- Customer and supplier returns.
+- Delivery orders, configurable delivery zones, drivers, driver custody, expenses, collections, and daily settlement.
+- Cashboxes, expenses, payments, receivables, payables, and financial reconciliation.
+- Employees, teams, custom roles, granular permissions, and approval workflows.
+- Reports, audit logs, backups, recovery, and offline operation where supported.
+- A multi-business SaaS architecture that can later serve multiple independent shops.
+
+Do not stop after generating the first screen. Build the complete application incrementally, keeping every implemented module connected to the same real data model and business logic.
+
+Do not claim that a feature, test, hardware integration, database, or deployment works unless it has actually been implemented and verified.
+
+2. TECHNOLOGY AND ARCHITECTURE
+
+First inspect the capabilities of the Google AI Studio Build environment and choose an architecture that can actually run and be maintained.
+
+Use a modern, strongly typed frontend, preferably React and TypeScript, with reusable components and a clean, modular architecture.
+
+Use a real persistent database and backend for the deployed SaaS version. Use secure server-side business logic for sensitive operations. Never expose database administrator credentials, API secrets, payment secrets, or privileged service keys in frontend code.
+
+For a standalone local installation, support a local application architecture with a local database or another reliable transactional data store. If Excel compatibility is needed, provide import/export and a dedicated Excel 2003-compatible ".xls" export where technically supported. Do not use an ordinary spreadsheet as the sole transactional database for concurrent SaaS users.
+
+Provide separate, clearly documented deployment configurations for:
+
+1. A local shop installation.
+2. A multi-user shop network, if supported by the selected architecture.
+3. A hosted multi-tenant SaaS deployment.
+
+Do not pretend that a cloud application is fully offline simply because some screens are cached. Clearly distinguish offline-supported operations from features that require a server or internet connection.
+
+If the environment cannot implement a required capability directly, build a clear adapter/interface for it, document the limitation, and provide a practical integration path rather than a fake working feature.
+
+Engineering requirements
+
+- Use modular services and reusable UI components.
+- Use database migrations and seed data.
+- Validate all important inputs on both client and server.
+- Use database transactions for sales, returns, receiving, custody movements, cashbox transfers, and settlement.
+- Prevent duplicate financial postings and duplicate stock movements.
+- Use unique IDs and appropriate indexes.
+- Use decimal-safe money calculations; do not rely on floating-point arithmetic for financial totals.
+- Use timestamps and an appropriate business timezone.
+- Handle errors clearly in Arabic and English.
+- Implement loading, empty, success, warning, and error states.
+- Include responsive desktop, tablet, and mobile layouts.
+- Include automated tests, build verification, and setup documentation.
+
+3. LANGUAGE, CURRENCY, AND DESIGN
+
+The entire interface must support Arabic and English.
+
+Arabic must be the default language on first launch.
+
+Requirements:
+
+- Arabic uses correct RTL layout.
+- English uses correct LTR layout.
+- Switching languages must update navigation, buttons, forms, validation messages, reports, dialogs, receipts, and settings.
+- Persist the user's language preference.
+- Use a centralized translation system instead of hardcoding text throughout the codebase.
+- Default currency: Egyptian Pound (EGP / ج.م).
+- Display currency consistently, for example "125.50 ج.م".
+- Use configurable number, date, and time formatting.
+- Use a clean, professional retail interface with fast cashier workflows.
+- Avoid unnecessary animations and decorative screens that slow down daily operations.
+- Provide accessible buttons, readable typography, keyboard navigation where appropriate, and touch-friendly controls.
+- Include a light theme and a dark theme if feasible.
+
+4. APPLICATION NAVIGATION AND EVERY REQUIRED SCREEN
+
+Create a complete navigation system with screens that are visible only to authorized users.
+
+At minimum, implement the following screens and workflows.
+
+A. Authentication and account screens
+
+1. Login.
+2. Logout.
+3. Password reset.
+4. Change password.
+5. User profile.
+6. Session management where supported.
+7. User account activation/deactivation.
+8. Access-denied screen.
+9. First-time setup wizard.
+10. Business and branch selection for users authorized to access multiple branches.
+
+Do not create a public registration route for the SaaS Super Admin.
+
+Never hardcode production passwords. Use secure password hashing, secure sessions, and appropriate account protections.
+
+B. Dashboard
+
+Provide role-specific dashboards showing only relevant information.
+
+Possible dashboard metrics include:
+
+- Today's sales.
+- Number of invoices.
+- Net sales.
+- Discounts.
+- Returns.
+- Gross profit when reliable cost data is available.
+- Cashbox balance.
+- Outstanding customer balances.
+- Supplier balances.
+- Low-stock products.
+- Out-of-stock products.
+- Pending purchase receipts.
+- Open delivery orders.
+- Drivers currently carrying orders or money.
+- Pending driver settlements.
+- Expenses.
+- Unresolved stock discrepancies.
+- Recent activity.
+
+Every dashboard metric must come from actual stored data and respect the user's permissions.
+
+C. Products and product management
+
+Build complete product CRUD functionality.
+
+Each product can include:
+
+- Unique product ID and SKU.
+- Barcode.
+- Arabic name.
+- English name.
+- Category.
+- Brand, when applicable.
+- Product image, if supported.
+- Purchase cost.
+- Selling price.
+- Minimum selling price, if authorized.
+- Unit of measure.
+- Alternative units and conversion factors.
+- Weight-based or piece-based classification.
+- Tax configuration if applicable.
+- Minimum stock threshold.
+- Active/inactive status.
+- Track-stock setting.
+- Supplier association.
+- Product notes.
+
+Support units such as:
+
+- Kilogram.
+- Gram.
+- Piece.
+- Box.
+- Carton.
+- Pack.
+- Liter.
+- Other configurable units.
+
+For fruit and vegetables, support decimal weights such as "0.250 kg", "1.375 kg", and "12.500 kg".
+
+Support barcode scanning and manual product search.
+
+Prevent invalid unit conversions. Show clear warnings when a product's stock or price configuration is incomplete.
+
+D. Categories and units
+
+Provide screens to:
+
+- Create, edit, archive, and search categories.
+- Create and configure units.
+- Set conversion factors.
+- Configure product-specific units.
+- Control which units are permitted during purchasing and selling.
+
+Do not silently change historical transactions when a product or unit configuration changes.
+
+E. Customers
+
+Customer records must include:
+
+- Customer ID.
+- Name.
+- Phone.
+- Address.
+- Delivery zone.
+- Optional notes.
+- Opening balance, with a documented opening-balance process.
+- Transaction history.
+- Sales history.
+- Returns history.
+- Outstanding balance.
+- Payment history.
+
+Support a walk-in customer without requiring a full customer account.
+
+F. Suppliers
+
+Supplier records must include:
+
+- Supplier name.
+- Phone and contact information.
+- Address.
+- Opening balance.
+- Purchase history.
+- Supplier-return history.
+- Payments.
+- Outstanding payable balance.
+- Notes and status.
+
+Supplier balances must be calculated from posted purchases, returns, payments, and approved adjustments rather than manually overwritten without an audit trail.
+
+G. POS and cashier screen
+
+Build a fast, practical POS screen.
+
+Required features:
+
+- Search products by Arabic or English name, SKU, or barcode.
+- Barcode scanner input.
+- Add and remove items.
+- Change quantities and weights.
+- Change units only when permitted.
+- Display current stock.
+- Display unit price and line total.
+- Apply authorized line-level or invoice-level discounts.
+- Select a customer or walk-in customer.
+- Calculate subtotal, discount, fees, and final total.
+- Accept multiple payment methods on one invoice.
+- Accept cash and configured digital payment methods.
+- Record the amount received and calculate change.
+- Support partial payment and customer credit only when authorized.
+- Save a sale and update stock atomically.
+- Print or reprint receipts.
+- Hold and resume a cart if implemented safely.
+- Cancel or void an invoice only through authorized, auditable workflows.
+- Show a clear confirmation before irreversible actions.
+
+Never allow the interface to display a completed sale if the transaction failed to persist.
+
+H. Payment methods
+
+Support configurable payment methods such as:
+
+- Cash.
+- Bank card.
+- Mobile wallet.
+- Bank transfer.
+- Customer credit.
+- Other administrator-configured methods.
+
+Record payment method, amount, reference where available, status, timestamp, and the user who recorded it.
+
+Do not assume that an external payment was successful without confirmation from the payment provider or an authorized reconciliation process.
+
+Keep product sales, delivery charges, payment collections, refunds, and driver expenses as distinct accounting events.
+
+I. Receipt printing and hardware
+
+Provide a configurable receipt template supporting Arabic and English.
+
+Receipt fields should include:
+
+- Business name and contact details.
+- Branch details.
+- Invoice number.
+- Date and time.
+- Cashier.
+- Customer where applicable.
+- Items, quantities, weights, unit prices, and line totals.
+- Discounts.
+- Delivery fees where applicable.
+- Total.
+- Payment breakdown.
+- Amount received.
+- Change.
+- Remaining customer balance if applicable.
+- Return policy or configurable footer.
+
+Support common thermal receipt printers through browser printing or a suitable local printing bridge.
+
+Provide hardware adapter interfaces for:
+
+- Receipt printers.
+- Cash drawers.
+- Barcode scanners.
+- Electronic weighing scales.
+
+A cash drawer should be triggered only after the appropriate successful transaction or an explicitly authorized drawer-opening action.
+
+Scanners that operate as keyboard input should work without requiring unnecessary drivers where possible.
+
+For weighing scales, implement a real integration only when the selected scale protocol, connection type, and driver are known. Otherwise, provide a documented adapter and a manual-weight fallback with audit logging.
+
+Do not claim compatibility with every printer, drawer, or scale.
+
+5. INVENTORY MANAGEMENT
+
+Build a complete inventory system with a stock ledger.
+
+Inventory screens
+
+1. Inventory overview.
+2. Stock by product.
+3. Stock by branch or location.
+4. Low-stock products.
+5. Out-of-stock products.
+6. Stock movement history.
+7. Stock adjustments.
+8. Stock counts.
+9. Inventory discrepancy reports.
+10. Reserved stock.
+11. Damaged and non-saleable goods.
+12. Product movement history.
+13. Inventory valuation.
+
+Stock rules
+
+Maintain separate quantities for:
+
+- Available stock.
+- Reserved stock.
+- Stock physically held by a driver.
+- Damaged or non-saleable stock.
+- Stock awaiting inspection, where relevant.
+
+Available stock should be calculated from the correct physical, reserved, and status quantities. Document the formula and avoid subtracting the same reservation twice.
+
+A stock movement must record:
+
+- Product.
+- Quantity.
+- Unit.
+- Source and destination.
+- Movement type.
+- Reference transaction.
+- User.
+- Timestamp.
+- Reason where applicable.
+
+Never silently delete a posted stock movement.
+
+Correct mistakes through a reversal or adjustment transaction linked to the original transaction.
+
+Prevent stock from becoming negative unless a specific, configurable policy explicitly permits it and the user has the required permission.
+
+6. PURCHASE ORDERS, GOODS RECEIVING, AND SUPPLIER INVOICES
+
+Build a full purchase and receiving workflow.
+
+Purchasing screens
+
+1. Purchase orders.
+2. New purchase order.
+3. Supplier selection.
+4. Goods receiving.
+5. Purchase invoice details.
+6. Received goods discrepancy screen.
+7. Supplier returns.
+8. Purchase history.
+9. Supplier payments.
+10. Purchase and supplier reports.
+
+Receiving workflow
+
+The authorized employee selects a supplier and records:
+
+- Supplier invoice number.
+- Purchase date.
+- Product.
+- Ordered quantity.
+- Actually received quantity.
+- Actual weight where relevant.
+- Unit of measure.
+- Purchase price per unit.
+- Line total.
+- Discount if applicable.
+- Additional purchase costs if supported.
+- Payment status.
+- Amount paid.
+- Remaining payable balance.
+- Notes.
+- Damaged, missing, or excess goods.
+
+Calculate line totals and invoice totals automatically.
+
+Allow partial receiving against an order.
+
+Record discrepancies between ordered and received quantities.
+
+Do not increase stock before the receiving transaction is successfully posted.
+
+When receiving is posted:
+
+1. Increase stock by the accepted received quantity.
+2. Record a stock ledger movement.
+3. Record the purchase transaction.
+4. Update supplier payable balances.
+5. Record payments separately.
+6. Preserve the supplier invoice reference.
+7. Prevent duplicate posting.
+
+Allow a draft to be edited before posting. Posted transactions must use audited correction or reversal workflows.
+
+7. CUSTOMER RETURNS AND REFUNDS
+
+Implement customer returns linked to the original sales invoice whenever possible.
+
+Return workflow:
+
+1. Search for the original invoice.
+2. Select the items being returned.
+3. Show original sold quantity, returned quantity, original selling price, and refundable amount.
+4. Prevent returning more than the remaining eligible quantity.
+5. Require a return reason.
+6. Record who approved and processed the return.
+7. Inspect returned goods and classify them as saleable, damaged, or awaiting inspection.
+8. Calculate the refund according to the original transaction and configured policy.
+9. Record refund payment method and status.
+10. Update inventory and financial records atomically.
+
+A saleable return may increase saleable stock.
+
+A damaged return must not increase saleable stock.
+
+An item awaiting inspection must remain separately identified until its condition is decided.
+
+A customer refund must not automatically mean that cash has physically left the cashbox. Record the refund transaction and the actual payment event separately when appropriate.
+
+If the original invoice is unavailable, allow a controlled exception only for authorized users, requiring a reason and sufficient evidence.
+
+8. SUPPLIER RETURNS
+
+Implement supplier returns linked to the original receiving transaction or supplier invoice.
+
+The workflow must:
+
+1. Find the original purchase or receipt.
+2. Select returned items.
+3. Show original purchase cost and eligible quantity.
+4. Prevent returning more than the remaining eligible quantity.
+5. Record reason and condition.
+6. Require approval when configured.
+7. Reduce the correct stock quantity.
+8. Record a supplier-return transaction.
+9. Adjust supplier payable balances or create a supplier credit according to the selected accounting policy.
+10. Record any cash refund or supplier credit settlement separately.
+11. Preserve the complete audit history.
+
+Do not value supplier returns using the current retail selling price.
+
+Use the appropriate original purchase cost or documented costing policy.
+
+9. INVENTORY COSTING AND PROFIT
+
+Use moving weighted-average cost as the default inventory costing method.
+
+For eligible inventory purchases, calculate the new average cost using the previous inventory value and the accepted incoming inventory value.
+
+Document how the system treats:
+
+- Purchase discounts.
+- Additional purchase costs.
+- Supplier returns.
+- Customer returns.
+- Damaged goods.
+- Stock adjustments.
+- Negative-stock exceptions.
+- Historical corrections.
+
+Sales profit reports must use the actual cost assigned to the sold quantity, not the current selling price or an invented estimate.
+
+Keep historical transaction prices and cost snapshots so changing a product's current price does not rewrite past invoices.
+
+Clearly label any report whose profit figures are incomplete because cost data is missing.
+
+10. DELIVERY ZONES AND PRICING
+
+Build a complete delivery management module integrated with POS and inventory.
+
+Delivery zone management screen
+
+Authorized users can create, edit, activate, and deactivate delivery zones.
+
+Each zone should include:
+
+- Arabic name.
+- English name.
+- Optional area description.
+- Delivery fee in EGP.
+- Optional minimum order value.
+- Optional free-delivery threshold.
+- Optional estimated delivery time.
+- Active/inactive status.
+- Effective date and optional end date.
+- Branch availability.
+- Notes.
+
+Examples of zones may include nearby areas, medium-distance areas, and distant areas. These are examples only; the business must configure the real zones and prices.
+
+The system must allow each zone to have its own delivery price.
+
+Support a configurable rule for whether free delivery is calculated before or after discounts.
+
+If a delivery fee is agreed upon when an order is created, preserve that fee as an order snapshot. Changing zone prices later must not silently change existing orders.
+
+Do not invent actual zone prices. Use clearly marked sample data only during demo setup.
+
+11. DELIVERY ORDER CREATION
+
+A cashier, owner, supervisor, or other authorized employee can create a delivery order.
+
+Required fields:
+
+- Order number.
+- Creation date and time.
+- Customer name.
+- Customer phone.
+- Delivery address.
+- Delivery zone.
+- Order source, such as in-store, phone, or manually entered online order.
+- Products.
+- Quantity or weight.
+- Unit price.
+- Discounts.
+- Product subtotal.
+- Delivery fee.
+- Final total.
+- Payment method, if paid.
+- Amount paid.
+- Remaining balance.
+- Customer instructions.
+- Requested delivery time, if applicable.
+- Assigned driver.
+- Order creator.
+
+The cashier must be able to select delivery order during checkout.
+
+Allow the employee to choose the appropriate zone and show the calculated delivery fee before confirming the order.
+
+Support editing a draft order. Once an order is confirmed or dispatched, changes must follow permission-controlled workflows and maintain an audit trail.
+
+When a delivery order is confirmed:
+
+1. Validate the product quantities.
+2. Reserve the required stock or deduct it according to a clearly documented policy.
+3. Prevent the same goods from being deducted twice.
+4. Record the order and its items.
+5. Preserve product prices and delivery fees.
+6. Record the payment status separately from the delivery status.
+
+Use one consistent inventory policy for delivery orders and explain it in the application.
+
+12. DELIVERY STATUS AND DISPATCH BOARD
+
+Implement a dedicated dispatch board showing delivery orders and their current statuses.
+
+Support these delivery statuses:
+
+- Draft.
+- Confirmed.
+- Preparing.
+- Ready for dispatch.
+- Assigned to driver.
+- Dispatched.
+- On the way.
+- Delivered.
+- Partially delivered.
+- Delivery failed.
+- Returned to shop.
+- Cancelled.
+
+These statuses must be separate from payment statuses and custody statuses.
+
+A delivery can be completed while payment remains outstanding.
+
+A delivery can fail even if some payment was already collected.
+
+A delivered order can still have an outstanding balance.
+
+Show the order number, customer, phone, zone, delivery fee, order total, payment status, assigned driver, creation time, and current status, subject to the viewer's permissions.
+
+Provide filters for date, branch, driver, zone, delivery status, payment status, and order creator.
+
+Record status history with timestamp, user, previous status, new status, and reason where applicable.
+
+Do not allow unauthorized or invalid status transitions.
+
+13. DRIVER MANAGEMENT AND DRIVER SCREEN
+
+Create a driver management screen.
+
+Driver records should include:
+
+- Driver ID.
+- Name.
+- Phone.
+- Active/inactive status.
+- Assigned branch.
+- Optional compensation model.
+- Notes.
+- Current open shift or custody status.
+
+Driver compensation may be configured as a fixed fee per delivery, a shift amount, or another documented model.
+
+Do not treat the delivery fee charged to the customer as automatically equal to the driver's compensation. These are separate amounts.
+
+Provide a dedicated driver interface optimized for mobile devices.
+
+The driver can see only assigned orders and permitted information.
+
+Driver actions may include:
+
+- View assigned orders.
+- View delivery address and customer contact details.
+- Mark order as picked up.
+- Mark order as on the way.
+- Mark order as delivered.
+- Record amount collected.
+- Record partial collection.
+- Mark order as unpaid.
+- Record failed delivery with a reason.
+- Record returned quantities.
+- Record customer rejection or other delivery issues.
+- View current custody summary.
+- Submit shift closeout.
+
+Require server-side validation and appropriate permissions for every driver action.
+
+Do not allow drivers to edit product prices, alter posted invoices, approve their own disputed expenses, or delete custody movements.
+
+14. DRIVER CUSTODY — عهدة الدليفري
+
+This is a core accounting and operational requirement.
+
+The system must separately track the following:
+
+1. Physical goods custody: products issued to the driver and not yet accounted for.
+2. Customer collection custody: money collected from customers and not yet handed to the shop.
+3. Delivery fee collections: delivery fees collected from customers.
+4. Driver expenses: approved expenses paid by the driver.
+5. Cash advances: money issued to the driver.
+6. Unpaid deliveries: completed deliveries for which the customer owes money.
+7. Partially paid deliveries: delivered orders with remaining balances.
+8. Undelivered goods: products still held by the driver.
+9. Returned goods: products returned to the shop but awaiting inspection or restocking.
+10. Driver compensation: amounts payable to the driver under the configured compensation policy.
+
+These categories must not be merged into one unexplained balance.
+
+Driver custody screens
+
+Build:
+
+- Current driver custody.
+- Assign orders to driver.
+- Issue goods to driver.
+- Record collections.
+- Record expenses.
+- Record advances.
+- Return goods to shop.
+- Cash handover to cashier.
+- Driver shift closing.
+- Driver settlement history.
+- Custody discrepancy report.
+- Driver compensation report.
+
+Dispatching goods
+
+When orders are assigned and physically issued to a driver, record the goods as being held by that driver.
+
+Store the product, quantity, unit, order reference, driver, issuing employee, time, and branch.
+
+The system must not treat a dispatch as a completed sale twice.
+
+Use a consistent inventory model: dispatched goods remain part of the recorded inventory value but move into a separate in-transit or driver-held status until the delivery outcome is resolved, unless the documented accounting policy explicitly specifies another approach.
+
+Customer payment collection
+
+When a driver collects money, record:
+
+- Order.
+- Customer.
+- Driver.
+- Amount collected.
+- Payment method.
+- Collection time.
+- Recording user.
+- Receipt or reference where available.
+
+Update the order's outstanding balance only through the valid payment transaction.
+
+Do not allow the same collection to be posted twice.
+
+Customer pays the full amount
+
+Example:
+
+- Product total: 300 EGP.
+- Delivery fee: 25 EGP.
+- Total due: 325 EGP.
+- Driver collects: 325 EGP.
+
+The system records 300 EGP as payment against the product sale and 25 EGP as delivery-fee collection according to the configured accounting model.
+
+The driver now holds 325 EGP of collected money until a valid handover or settlement occurs.
+
+Do not add 325 EGP to the cashbox at the moment of collection and then add it again when the driver hands over the same money.
+
+Customer pays nothing
+
+Example:
+
+- Product total: 300 EGP.
+- Delivery fee: 25 EGP.
+- Amount collected: 0 EGP.
+
+The order may be marked delivered only if the authorized workflow allows an unpaid delivery.
+
+The customer's outstanding balance remains 300 EGP, plus any delivery fee owed by the customer under the business policy.
+
+The system must clearly show whether the business or the customer bears the delivery cost. Do not automatically record a collection that never happened.
+
+Customer pays partially
+
+Example:
+
+- Total due: 325 EGP.
+- Amount collected: 100 EGP.
+- Remaining amount: 225 EGP.
+
+Record 100 EGP as a real payment and preserve the remaining balance.
+
+The order may be marked partially paid and delivered if the policy allows it.
+
+Failed delivery
+
+If the customer cannot be reached, refuses the order, or the delivery otherwise fails:
+
+1. Record the failure reason.
+2. Record any money already collected.
+3. Record the goods still held by the driver.
+4. Record the return trip and returned quantities.
+5. Do not mark the order paid unless payment was actually received.
+6. Do not restore stock before the returned goods have been received and inspected.
+7. Require an authorized cancellation or rescheduling process.
+
+15. RETURNING DELIVERY GOODS TO THE SHOP
+
+Build a formal driver-return workflow.
+
+When the driver returns:
+
+- Identify the original order.
+- Identify each product.
+- Record the quantity issued.
+- Record the quantity delivered.
+- Record the quantity returned.
+- Record missing or damaged quantities.
+- Record the receiving employee.
+- Record the return time.
+- Record inspection results.
+- Record discrepancies and reasons.
+
+Returned products must initially be classified as awaiting inspection when appropriate.
+
+After inspection, an authorized employee may classify them as:
+
+- Saleable and returned to available stock.
+- Damaged and moved to damaged stock.
+- Missing or disputed.
+- Other configured condition.
+
+Never restore the full original order quantity automatically when only part of the order was returned.
+
+Never allow the same returned quantity to be received twice.
+
+If an invoice or payment needs reversal, create the appropriate linked return, refund, or credit transaction. Do not erase the original delivery or sale history.
+
+16. DRIVER EXPENSES AND ADVANCES
+
+Allow drivers to submit expenses such as:
+
+- Fuel.
+- Parking.
+- Tolls.
+- Other approved delivery expenses.
+
+Each expense must record:
+
+- Driver.
+- Amount.
+- Category.
+- Date and time.
+- Description.
+- Receipt image or reference, if supported.
+- Funding source.
+- Approval status.
+- Approver.
+- Approval or rejection reason.
+
+Support cash advances issued to drivers.
+
+Record the amount, issuing cashbox, authorized issuer, date, purpose, and remaining advance balance.
+
+Unapproved expenses must not automatically reduce the driver's amount due to the shop.
+
+Distinguish expenses funded by driver-collected cash from expenses paid from a separately issued advance.
+
+Do not deduct the same expense twice.
+
+17. CASH HANDOVER AND DRIVER SHIFT CLOSING
+
+Build a complete shift closeout and reconciliation process.
+
+At closing, calculate the expected money held by the driver from actual posted events.
+
+A configurable reconciliation model may include:
+
+Expected closing cash custody = opening cash custody + cash collections + cash advances received − approved expenses paid from that custody − previous cash handovers − other explicitly authorized cash movements.
+
+Do not count non-cash collections as physical cash.
+
+Do not subtract an advance twice if it was already included in opening custody or another opening balance.
+
+Show the individual transactions that produced the expected total.
+
+Example calculation
+
+Suppose:
+
+- Cash collected from customers: 1,000 EGP.
+- Cash advance received during the shift: 200 EGP.
+- Approved cash expense paid from the same custody: 50 EGP.
+- Previous handover during the shift: 700 EGP.
+
+Expected remaining cash custody:
+
+1,000 + 200 − 50 − 700 = 450 EGP.
+
+The screen should show the calculation and its supporting transactions.
+
+This example is illustrative only. All actual totals must be computed from real stored events.
+
+Closeout screen
+
+Display:
+
+- Driver.
+- Branch.
+- Shift.
+- Opening custody.
+- Orders assigned.
+- Orders delivered.
+- Orders partially delivered.
+- Failed deliveries.
+- Customer collections by payment method.
+- Delivery-fee collections.
+- Approved expenses.
+- Advances.
+- Previous handovers.
+- Goods still held by driver.
+- Returned goods awaiting inspection.
+- Expected cash custody.
+- Actual cash handed over.
+- Remaining custody.
+- Shortage or excess.
+- Driver notes.
+- Reviewer.
+- Approval status.
+
+Allow the driver to declare actual cash and goods returned.
+
+Calculate differences automatically.
+
+If there is a discrepancy, require a reason and send it for authorized review.
+
+Do not silently write off shortages.
+
+A shift must not be finalized while unresolved goods or discrepancies remain unless an authorized user explicitly approves a documented exception.
+
+Cash handover
+
+When money is physically handed to the cashier:
+
+1. Record the handover amount.
+2. Identify the receiving cashier.
+3. Record the driver and branch.
+4. Record the date and time.
+5. Record the payment denominations or notes if useful.
+6. Create a linked cashbox receipt exactly once.
+7. Reduce the driver's outstanding cash custody by the handed-over amount.
+8. Preserve the handover reference.
+
+A handover must not create duplicate income. It transfers custody of existing collected money; it is not a second sale.
+
+If the handover is rejected or disputed, preserve the discrepancy and route it for review.
+
+Frozen closeout
+
+Once a shift closeout is approved, freeze the statement and its included transactions.
+
+Corrections must be performed through authorized adjustment or reversal records linked to the original closeout.
+
+Do not rewrite approved historical settlements when later transactions are created.
+
+18. CASHBOXES, EXPENSES, AND FINANCIAL MANAGEMENT
+
+Implement:
+
+- One or more cashboxes per branch.
+- Opening balance records.
+- Cash receipts.
+- Cash payments.
+- Cash transfers between authorized cashboxes.
+- Supplier payments.
+- Customer payments.
+- Customer refunds.
+- Operating expenses.
+- Driver advances.
+- Driver handovers.
+- Cashbox closing.
+- Cash reconciliation.
+- Financial transaction history.
+
+Every cash movement must include a source, destination when applicable, amount, date, user, reason, and linked reference.
+
+Transfers between a driver and a cashier must not be recorded as new sales.
+
+Separate:
+
+- Product revenue.
+- Delivery-fee revenue.
+- Driver compensation expense.
+- Delivery operating expenses.
+- Supplier payments.
+- Customer refunds.
+- Cash transfers.
+- Owner contributions or withdrawals, if enabled.
+
+Provide an expense screen with configurable categories, payment method, approval rules, attachment support where feasible, and audit history.
+
+19. EMPLOYEES, ROLES, AND PERMISSIONS
+
+Implement granular role-based access control.
+
+Do not give every user the same screens or capabilities.
+
+Initial role templates should include:
+
+SaaS Super Admin
+
+- Manage platform-level configuration.
+- Manage tenant accounts and subscription plans.
+- Activate, suspend, and manage business tenants.
+- Monitor system health and platform-level usage.
+- Manage platform-wide configuration.
+- Access business data only through explicitly authorized support or administrative workflows with audit logging.
+
+Business Owner
+
+- Access authorized business and branch dashboards.
+- Manage products, pricing, customers, suppliers, employees, and settings.
+- View financial reports and profits.
+- Manage purchases, stock, cashboxes, delivery, and driver settlements.
+- Approve configured sensitive transactions.
+- Manage branch permissions.
+
+Branch Manager / Supervisor
+
+- Perform authorized branch operations.
+- Review daily performance.
+- Approve configured returns, discounts, stock adjustments, expenses, and discrepancies.
+- Access only permitted branch and financial information.
+
+Cashier
+
+- Use POS.
+- Create sales.
+- Record permitted payments.
+- Print receipts.
+- Create delivery orders if permitted.
+- View permitted customer information.
+- Cannot access restricted business-wide financial settings unless granted permission.
+
+Inventory / Warehouse Employee
+
+- Manage authorized product and stock operations.
+- Receive goods.
+- Prepare orders.
+- Record physical stock movements.
+- Perform stock counts.
+- Process returned goods subject to permissions.
+
+Purchasing Employee
+
+- Create purchase orders.
+- Record supplier invoices and receiving.
+- Submit supplier payments or purchase returns according to assigned permissions.
+
+Delivery Dispatcher
+
+- Assign orders to drivers.
+- Monitor delivery progress.
+- View permitted delivery information.
+- Review failed deliveries and returned goods.
+
+Delivery Driver
+
+- See assigned deliveries.
+- Update permitted delivery statuses.
+- Record actual customer collections.
+- Record expenses and return quantities.
+- View personal custody and settlement.
+- Cannot edit posted prices, erase transactions, or approve their own disputed expenses.
+
+Accountant
+
+- View and reconcile permitted financial transactions.
+- Review supplier and customer balances.
+- Review cashbox movements.
+- Access authorized financial reports.
+- Cannot silently modify posted sales or stock history.
+
+Custom Roles
+
+The owner or authorized administrator can create custom roles and assign individual permissions.
+
+Permission requirements
+
+Implement permissions for:
+
+- Viewing.
+- Creating.
+- Editing drafts.
+- Posting transactions.
+- Cancelling.
+- Returning.
+- Refunding.
+- Discounting.
+- Viewing cost prices.
+- Viewing profits.
+- Managing employees.
+- Managing cashboxes.
+- Approving expenses.
+- Approving discrepancies.
+- Closing driver shifts.
+- Reopening or adjusting closed transactions.
+- Exporting reports.
+- Managing settings.
+
+Enforce permissions on the server or trusted backend, not only by hiding frontend buttons.
+
+Keep employee job titles separate from system roles.
+
+Maintain an audit trail for sensitive actions.
+
+20. MULTI-BRANCH AND MULTI-TENANT SAAS
+
+Design the database so multiple independent businesses can use the platform without seeing each other's data.
+
+Entities should be linked to the appropriate tenant and branch.
+
+Enforce tenant isolation at the database and backend authorization layers.
+
+Support:
+
+- Multiple businesses.
+- Multiple branches per business.
+- Branch-specific inventory.
+- Branch-specific cashboxes.
+- Branch-specific employees.
+- Branch transfers.
+- Branch-level reports.
+- Business-wide reports for authorized owners.
+- Tenant activation and suspension.
+- Configurable subscription plans.
+- Subscription status and renewal information.
+- Usage limits where configured.
+- A foundation for future billing and payment gateway integration.
+
+Do not implement insecure tenant filtering solely in frontend code.
+
+A user from one business must never be able to access another business's records by changing a URL, ID, request parameter, or API call.
+
+The first owner account must be created through a secure setup or seed process, not through an exposed public Super Admin signup.
+
+Do not hardcode secrets or real credentials into source code.
+
+21. APPROVALS AND AUDIT LOGS
+
+Build a configurable approval workflow for sensitive actions, including:
+
+- Large discounts.
+- Price overrides.
+- Stock adjustments.
+- Customer refunds.
+- Supplier returns.
+- Expenses.
+- Driver custody discrepancies.
+- Cashbox adjustments.
+- Voids and reversals.
+- Closed-shift corrections.
+
+Each approval record should include:
+
+- Transaction reference.
+- Requester.
+- Approver.
+- Reason.
+- Status.
+- Timestamp.
+- Decision notes.
+
+Maintain append-only audit history for critical business events.
+
+Log the actor, action, affected record, timestamp, and relevant before/after values where appropriate.
+
+Do not log plaintext passwords, authentication tokens, or sensitive payment credentials.
+
+22. REPORTS AND ANALYTICS
+
+Create working reports based on actual persisted transactions.
+
+Required reports:
+
+Sales
+
+- Daily sales.
+- Sales by date range.
+- Sales by cashier.
+- Sales by branch.
+- Sales by product.
+- Sales by category.
+- Sales by customer.
+- Discounts.
+- Voids.
+- Returns.
+- Payment methods.
+- Outstanding customer balances.
+
+Inventory
+
+- Current stock.
+- Low stock.
+- Out-of-stock items.
+- Stock valuation.
+- Stock movement ledger.
+- Stock adjustments.
+- Damaged goods.
+- Reserved goods.
+- Goods held by drivers.
+- Stock discrepancy history.
+
+Purchasing
+
+- Purchases by supplier.
+- Purchases by product.
+- Purchase returns.
+- Supplier payments.
+- Outstanding supplier balances.
+- Receiving discrepancies.
+
+Delivery
+
+- Orders by status.
+- Orders by zone.
+- Orders by driver.
+- Delivery fees collected.
+- Delivery fees outstanding.
+- Failed deliveries.
+- Partially delivered orders.
+- Driver-held goods.
+- Returned goods.
+- Driver collections.
+- Driver expenses.
+- Driver advances.
+- Driver compensation.
+- Driver shift settlements.
+- Custody discrepancies.
+- Cash handovers.
+
+Finance
+
+- Cashbox transactions.
+- Cashbox balances.
+- Expenses by category.
+- Customer receivables.
+- Supplier payables.
+- Refunds.
+- Payment reconciliation.
+- Revenue and cost summaries.
+- Gross profit where reliable cost data exists.
+
+Reports must support date filters, relevant branch filters, and export where authorized.
+
+Provide CSV and Excel exports, including ".xls" export when technically supported.
+
+Exported data must follow the same permissions as on-screen reports.
+
+Do not label cash transfers as revenue or count driver handovers as new sales.
+
+23. DATA MODEL
+
+Design a normalized, maintainable database.
+
+Include appropriate entities such as:
+
+- Tenants.
+- Branches.
+- Users.
+- Roles.
+- Permissions.
+- User-role assignments.
+- Customers.
+- Customer addresses.
+- Suppliers.
+- Products.
+- Categories.
+- Units.
+- Product-unit conversions.
+- Price records.
+- Inventory balances.
+- Inventory movements.
+- Stock reservations.
+- Stock counts.
+- Purchase orders.
+- Purchase order items.
+- Goods receipts.
+- Goods receipt items.
+- Supplier invoices.
+- Supplier returns.
+- Supplier payments.
+- Sales.
+- Sale items.
+- Sale payments.
+- Customer returns.
+- Customer return items.
+- Refund transactions.
+- Delivery zones.
+- Delivery orders.
+- Delivery order items.
+- Delivery status history.
+- Drivers.
+- Driver assignments.
+- Driver shifts.
+- Driver custody movements.
+- Driver collections.
+- Driver expenses.
+- Driver advances.
+- Driver handovers.
+- Driver settlements.
+- Cashboxes.
+- Cashbox transactions.
+- Expense categories.
+- Business expenses.
+- Approval requests.
+- Audit logs.
+- Attachments or file references.
+- Application settings.
+- Subscription plans and tenant subscriptions.
+- Backup and synchronization metadata, if applicable.
+
+Use suitable foreign keys, indexes, unique constraints, decimal types, timestamps, and status fields.
+
+Use transaction references to link related events across inventory, sales, delivery, returns, and finance.
+
+Avoid storing the same balance in multiple unrelated places without a defined reconciliation mechanism.
+
+Where a cached or derived balance is stored for performance, provide a way to verify it against the underlying ledger.
+
+24. OFFLINE OPERATION, SYNCHRONIZATION, AND BACKUPS
+
+Provide a realistic strategy for local operation and temporary internet outages.
+
+Clearly define:
+
+- Which screens work offline.
+- Which transactions can be safely queued.
+- How queued transactions are synchronized.
+- How duplicate submissions are prevented.
+- How conflicts are resolved.
+- Which operations require an online server.
+- How the user knows whether data is synchronized.
+
+Use unique operation IDs or equivalent idempotency mechanisms to prevent duplicate sales, payments, returns, and handovers after a connection is restored.
+
+Do not silently discard offline transactions.
+
+If true offline persistence is not supported by the selected AI Studio deployment architecture, clearly state that limitation and provide the best supported local architecture instead of claiming offline capability.
+
+Implement backup and restore procedures appropriate to the chosen storage architecture.
+
+Include:
+
+- Manual backup.
+- Scheduled backup where supported.
+- Backup destination configuration.
+- Backup status.
+- Restore instructions.
+- Validation after restore.
+- Protection of backups containing sensitive information.
+
+Never claim a backup was completed if it was not actually created and verified.
+
+25. SECURITY AND DATA INTEGRITY
+
+Implement:
+
+- Secure authentication.
+- Password hashing.
+- Server-side authorization.
+- Tenant isolation.
+- Input validation.
+- Output escaping.
+- Protection against unauthorized data access.
+- Safe error handling.
+- Secrets through environment variables or the environment's secure secret manager.
+- Rate limiting and session protections where supported.
+- Audit logging.
+- Database constraints.
+- Transactional stock and payment operations.
+- Safe backup handling.
+
+Never put real API keys, passwords, or private credentials in source files.
+
+Do not store card security codes or sensitive payment data unnecessarily.
+
+For future payment gateways, use official provider integrations and verify payment status server-side.
+
+Provide a clear security configuration checklist before production deployment.
+
+26. USER EXPERIENCE AND BUSINESS WORKFLOWS
+
+All major screens must be functional and connected.
+
+Include:
+
+- Search.
+- Filtering.
+- Sorting.
+- Pagination or efficient large-list handling.
+- Form validation.
+- Confirmation dialogs for risky actions.
+- Clear Arabic and English messages.
+- Helpful empty states.
+- Error recovery.
+- Transaction history.
+- Printable documents where appropriate.
+- Keyboard shortcuts for cashier tasks where feasible.
+- Responsive layouts.
+- Fast product selection.
+
+Do not use buttons that do nothing.
+
+Do not use fake success messages.
+
+Do not substitute static arrays for persistent business records except in clearly identified demo or test data.
+
+Do not leave forms disconnected from the database.
+
+Do not generate random financial totals or fabricated inventory.
+
+27. REQUIRED END-TO-END BUSINESS SCENARIOS
+
+Implement and test these complete scenarios using clearly labeled test data.
+
+Scenario A: Normal cash sale
+
+1. Create a product with a known stock quantity.
+2. Open the POS.
+3. Sell a specified quantity.
+4. Receive cash.
+5. Complete the sale.
+6. Verify invoice persistence.
+7. Verify stock reduction.
+8. Verify the payment record.
+9. Verify the cashbox transaction.
+10. Verify receipt printing or print preview.
+
+Scenario B: Goods receiving
+
+1. Create a supplier.
+2. Create or select a product.
+3. Receive goods with actual quantity and purchase cost.
+4. Post the receipt.
+5. Verify stock increases.
+6. Verify stock ledger.
+7. Verify purchase history.
+8. Verify supplier balance.
+9. Verify moving weighted-average cost.
+
+Scenario C: Customer return
+
+1. Create a sale.
+2. Return a permitted portion of the sold quantity.
+3. Link the return to the original invoice.
+4. Inspect the returned item.
+5. Restock only the saleable quantity.
+6. Record the refund or customer credit.
+7. Verify inventory and financial ledgers.
+8. Verify duplicate or excess returns are rejected.
+
+Scenario D: Supplier return
+
+1. Receive stock from a supplier.
+2. Return a permitted quantity.
+3. Link the return to the original receipt.
+4. Verify stock reduction.
+5. Verify supplier credit or payable adjustment.
+6. Verify the purchase history remains intact.
+
+Scenario E: Delivery order paid in full
+
+1. Create a delivery zone with a configured fee.
+2. Create an order for 300 EGP of products.
+3. Apply a delivery fee of 25 EGP.
+4. Assign the order to a driver.
+5. Dispatch the goods.
+6. Driver delivers the order and collects 325 EGP.
+7. Record 300 EGP against the sale and 25 EGP as delivery-fee collection according to policy.
+8. Verify the driver custody balance is 325 EGP until handover.
+9. Driver hands over 325 EGP.
+10. Verify the receiving cashbox increases by exactly 325 EGP at handover and that the money has not been counted twice.
+11. Verify order, inventory, collection, handover, and audit histories.
+
+Scenario F: Delivery order unpaid
+
+1. Create a delivery order for 300 EGP of products with a 25 EGP delivery fee.
+2. Assign and dispatch the order.
+3. Deliver without collecting payment.
+4. Record the permitted unpaid-delivery outcome.
+5. Verify the outstanding customer balance.
+6. Verify the correct delivery-fee responsibility.
+7. Verify that no fictitious cash collection exists.
+
+Scenario G: Partially paid delivery
+
+1. Create an order totaling 325 EGP.
+2. Collect 100 EGP.
+3. Verify 100 EGP is recorded as payment.
+4. Verify 225 EGP remains outstanding.
+5. Ensure payment and delivery statuses remain separate.
+
+Scenario H: Failed delivery and partial return
+
+1. Dispatch a delivery order with multiple items.
+2. Mark the delivery as failed or partially delivered.
+3. Record the quantities delivered and returned.
+4. Return the goods physically to the shop.
+5. Inspect each returned item.
+6. Restock only the eligible saleable quantity.
+7. Record any customer payment or refund correctly.
+8. Verify the original order remains auditable.
+9. Verify no duplicated stock or money movement occurs.
+
+Scenario I: Driver closeout
+
+Use this example:
+
+- Customer cash collections: 1,000 EGP.
+- Cash advance received: 200 EGP.
+- Approved expense paid from the same custody: 50 EGP.
+- Previous handover: 700 EGP.
+
+Expected remaining custody: 450 EGP.
+
+Verify the calculation from individual ledger events, not a hardcoded result.
+
+Then record an actual handover, reconcile the remaining custody, and verify that the receiving cashbox is updated exactly once.
+
+Scenario J: Permissions and tenant isolation
+
+1. Create a cashier, driver, inventory employee, manager, and owner.
+2. Verify each role can access only permitted features.
+3. Verify drivers cannot edit posted sale prices.
+4. Verify cashiers cannot access restricted reports.
+5. Verify unauthorized refunds and stock adjustments are rejected.
+6. Verify a user from one tenant cannot access another tenant's data by manipulating URLs or API requests.
+
+28. AUTOMATED TESTING AND QUALITY ASSURANCE
+
+Create a real automated test suite.
+
+At minimum, test:
+
+- Authentication and authorization.
+- Product creation and validation.
+- Decimal weights.
+- Stock receiving.
+- Moving weighted-average costing.
+- Sales and stock reduction.
+- Multi-method payments.
+- Cashbox transactions.
+- Customer returns.
+- Supplier returns.
+- Duplicate transaction prevention.
+- Delivery zone pricing.
+- Delivery fee snapshots.
+- Delivery order status transitions.
+- Driver assignment and dispatch.
+- Full customer collections.
+- Partial collections.
+- Unpaid deliveries.
+- Failed deliveries.
+- Partial returned quantities.
+- Damaged goods.
+- Driver advances.
+- Approved and rejected expenses.
+- Cash handovers.
+- Driver closeout calculations.
+- Duplicate handover prevention.
+- Stock and custody reconciliation.
+- Role permissions.
+- Tenant isolation.
+- Arabic RTL and English LTR rendering.
+- Database migrations.
+- Backup and restore, where supported.
+
+Use unit tests for calculations, integration tests for database transactions and APIs, and end-to-end tests for critical user workflows where the environment permits.
+
+Run the tests and report the actual results.
+
+Do not claim that tests passed if they were not executed.
+
+If a test cannot run in the current environment, state exactly why and provide the command needed to run it later.
+
+29. IMPLEMENTATION PLAN
+
+Implement the project in a controlled sequence, without stopping after the first phase.
+
+Phase 1 — Foundation
+
+- Inspect the environment.
+- Select a supported architecture.
+- Create the project structure.
+- Implement authentication.
+- Implement localization.
+- Implement the database schema and migrations.
+- Implement roles and permissions.
+- Implement tenant and branch isolation.
+
+Phase 2 — Products and inventory
+
+- Product management.
+- Categories and units.
+- Customers and suppliers.
+- Inventory ledger.
+- Purchase orders and receiving.
+- Customer returns.
+- Supplier returns.
+- Stock valuation.
+
+Phase 3 — POS and finance
+
+- POS.
+- Payments.
+- Receipts.
+- Cashboxes.
+- Expenses.
+- Customer and supplier balances.
+- Financial reports.
+
+Phase 4 — Delivery and custody
+
+- Delivery zones.
+- Delivery order creation.
+- Dispatch board.
+- Driver accounts and interface.
+- Driver custody.
+- Collections.
+- Failed deliveries.
+- Return inspections.
+- Advances and expenses.
+- Handover and shift settlement.
+- Delivery reports.
+
+Phase 5 — Administration and reporting
+
+- Custom permissions.
+- Approval workflows.
+- Audit logs.
+- Dashboards.
+- Reports.
+- Data exports.
+- SaaS administration.
+- Subscription foundation.
+
+Phase 6 — Verification and delivery
+
+- Run migrations.
+- Seed clearly labeled demo data.
+- Run tests.
+- Fix failures.
+- Run production build.
+- Check the major user workflows.
+- Prepare setup and deployment instructions.
+- Provide the complete source code and project files.
+- Provide a list of completed features and any remaining limitations.
+
+These phases are an implementation order, not permission to stop after producing a plan. Start building immediately and continue implementing as much of the complete application as the environment allows.
+
+30. FINAL ACCEPTANCE CRITERIA
+
+The application is not complete merely because it looks attractive.
+
+Acceptance requires:
+
+1. The main screens exist and work.
+2. Forms save real data.
+3. Related modules use the same consistent database records.
+4. Sales update inventory and payments correctly.
+5. Receiving updates inventory and supplier balances correctly.
+6. Customer and supplier returns are linked and auditable.
+7. Delivery zones apply the correct configured fees.
+8. Driver custody is reconciled against actual posted events.
+9. Cash handovers do not duplicate revenue or cash.
+10. Unpaid and partially paid deliveries retain correct balances.
+11. Returned goods are not restocked twice.
+12. Permissions are enforced by trusted backend logic.
+13. Tenant data is isolated.
+14. Arabic and English work across the application.
+15. Financial and inventory calculations are covered by tests.
+16. The project builds successfully in the supported environment.
+17. Setup, deployment, backup, and restore instructions are documented.
+18. Unsupported hardware or offline features are clearly disclosed.
+19. The source code is complete enough to continue development.
+20. No feature is falsely described as tested or production-ready.
+
+31. REQUIRED FINAL RESPONSE FROM THE BUILD ENVIRONMENT
+
+When implementation reaches a meaningful checkpoint, provide:
+
+- The implemented modules.
+- The modules that remain incomplete.
+- The selected architecture and why it was chosen.
+- Database and backend details.
+- How to run the application.
+- How to create the first business and owner account securely.
+- How to create users and assign permissions.
+- How to configure products, stock, suppliers, delivery zones, drivers, and cashboxes.
+- How to configure printers, scanners, drawers, and scales that are actually supported.
+- How to run the automated tests.
+- Actual test results.
+- Build status.
+- Known limitations.
+- Deployment instructions.
+- Backup and restore instructions.
+- How to export or migrate the data.
+
+Begin by inspecting the available build environment and creating the real project. Do not answer with another proposal, architecture document, or static mockup in place of implementation.
+
+Build Talabeyah as a connected, maintainable application, prioritize data integrity and correct accounting, and never fabricate implementation or test results.

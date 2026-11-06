@@ -1,0 +1,23 @@
+{
+  "id": "/",
+  "name": "طلبية كاشير - Talabeyah POS",
+  "short_name": "طلبية POS",
+  "description": "نظام كاشير متكامل لمحلات الخضار والفاكهة والسوبرماركت - متصل بالطابعة والميزان الإلكتروني",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a1532",
+  "theme_color": "#0a1532",
+  "dir": "rtl",
+  "lang": "ar",
+  "categories": ["business", "finance", "productivity"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
